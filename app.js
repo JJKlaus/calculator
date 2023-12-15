@@ -6,26 +6,31 @@ document.addEventListener('DOMContentLoaded', function() {
     let num1 = 'null';
     let num2 = 'null';
     let operation = 'null';
+    let result = 'null';
+    let displayText = '';
+    let operatorToggle = 0;
 
     //make all buttons work
     numpad.addEventListener('click', function(e) {
         if (e.target.classList.contains('number')) {
-            if (display.textContent == '0' || display.textContent == '+' || display.textContent == '-' || display.textContent == '*' || display.textContent == '/' || display.textContent == '=') {
+            num1, num2 = numPress(e, num1, num2);
+            /*if (display.textContent == '0' || display.textContent == '+' || display.textContent == '-' || display.textContent == '*' || display.textContent == '/' || display.textContent == '=') {
                 display.textContent = '';
             }
-            if(e.target.textContent == 'C') {
+            if(e.target.classList.contains('clear')) {
                 clear();
                 return;
-            }
+            }*/
             display.textContent += e.target.textContent;
         }
     });
 
     operators.addEventListener('click', function(e) {
         if (e.target.classList.contains('operator')) {
-            if(e.target.textContent == '=') {
+            if(e.target.classList.contains('equals')) {
                 num2 = display.textContent;
-                display.textContent = evaluate(num1, num2, operation);
+                result = evaluate(num1, num2, operation);
+                display.textContent = result;
                 return;
             }
             operation = e.target.textContent;
@@ -33,6 +38,32 @@ document.addEventListener('DOMContentLoaded', function() {
             display.textContent = e.target.textContent;
         }
     });
+
+    function numPress(e, num1, num2) {
+        if(operatorToggle == 0) {
+            num1 = num1 === null ? '0' : num1;
+            num1 += e.target.textContent;
+        }
+        else {
+            num2 = num2 === null ? '0' : num2;
+            num2 += e.target.textContent;
+        }
+        return num1, num2;
+    }
+
+    function operatorPress(e, operation, operatorToggle) {
+        if(e.target.classList.contains('equals')) {
+            operatorToggle = 0;
+            operation = '=';
+            result = evaluate(num1, num2, operation);
+            return operatorToggle, operation;
+        }
+        if (operatorToggle == 0) {
+            operatorToggle = 1;
+            operation = e.target.textContent;
+        }
+        return operatorToggle, operation;
+    }
 
 
     //functions for each operation
@@ -68,11 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function modulo(a, b) {
         return parseFloat(a) % parseFloat(b);
     }
+    
+    //function to clear display
     function clear() {
         num1 = null;
         num2 = null;
         operation = null;
+        operatorToggle = 0;
         display.textContent = '0';
     }
-    //function to clear display
 });
