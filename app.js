@@ -13,14 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
     //make all buttons work
     numpad.addEventListener('click', function(e) {
         if (e.target.classList.contains('number')) {
-            num1, num2 = numPress(e, num1, num2);
-            /*if (display.textContent == '0' || display.textContent == '+' || display.textContent == '-' || display.textContent == '*' || display.textContent == '/' || display.textContent == '=') {
+            if (display.textContent == '0' || display.textContent == '+' || display.textContent == '-' || display.textContent == '*' || display.textContent == '/' || display.textContent == '=') {
                 display.textContent = '';
             }
             if(e.target.classList.contains('clear')) {
                 clear();
                 return;
-            }*/
+            }
             display.textContent += e.target.textContent;
         }
     });
@@ -39,31 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function numPress(e, num1, num2) {
-        if(operatorToggle == 0) {
-            num1 = num1 === null ? '0' : num1;
-            num1 += e.target.textContent;
-        }
-        else {
-            num2 = num2 === null ? '0' : num2;
-            num2 += e.target.textContent;
-        }
-        return num1, num2;
-    }
-
-    function operatorPress(e, operation, operatorToggle) {
-        if(e.target.classList.contains('equals')) {
-            operatorToggle = 0;
-            operation = '=';
-            result = evaluate(num1, num2, operation);
-            return operatorToggle, operation;
-        }
-        if (operatorToggle == 0) {
-            operatorToggle = 1;
-            operation = e.target.textContent;
-        }
-        return operatorToggle, operation;
-    }
+    
 
 
     //functions for each operation
